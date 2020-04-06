@@ -6,22 +6,16 @@ import java.util.Date;
 
 final public class Gregorian extends Base{
 
-    protected static final short[] maxDayOfMonth;
-    protected static final short[] maxDayOfMonthLeapYear;
-    private static String[] monthNames = {
+    protected static final short[] maxDayOfMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    protected static final short[] maxDayOfMonthLeapYear = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    private static final String[] monthNames = {
             "JANUARY", "FEBRUARY", "MARCH", "APRIL",
             "MAY", "JUNE", "JULY", "AUGUST",
             "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
-    final static String[] dayNames = {
+    static final String[] dayNames = {
             "Sunday", "Monday", "Tuesday",
             "Wednesday", "Thursday", "Friday",
             "Saturday"};
-
-    static
-    {
-        maxDayOfMonth = new short[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        maxDayOfMonthLeapYear = new short[]{31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    }
 
     public Gregorian(){this(getCurrentYear(), getCurrentMonth(), getCurrentDay());}
     public Gregorian(Persian date){this(convertFromPersian(date));}

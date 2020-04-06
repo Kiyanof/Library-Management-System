@@ -12,17 +12,14 @@ final public class Persian extends Base{
     protected static final int[] leapYearCondition = new int[]{0, 4, 8, 12, 16, 20, 24, 29, 33, 37, 41, 45, 49,
             53, 57, 62, 66, 70, 74, 78, 82, 86, 90, 95, 99,
             103, 107, 111, 115, 119, 124};
-    private static Gregorian currentDate;
-    private static String[] monthNames = {
+    private static final String[] monthNames = {
             "فروردین", "اردیبهشت", "خرداد", "تیر",
             "مرداد", "شهریور", "مهر", "آبان",
             "آذر", "دی", "بهمن", "اسفند"};
-    private static String[] dayNames = {
+    private static final String[] dayNames = {
             "یکشنبه", "دوشنبه", "سه شنبه",
             "چهارشنبه", "پنجشنبه", "جمعه",
             "شنبه"};
-
-    static{currentDate = new Gregorian();}
 
     public Persian(){this(getCurrentYear(), getCurrentMonth(), getCurrentDay());}
     public Persian(Gregorian date){this(Persian.convertFromGregorian(date));}
@@ -51,10 +48,12 @@ final public class Persian extends Base{
     String getType() {return "Solar: ";}
 
     public static int getCurrentYear(){
+        Gregorian currentDate = new Gregorian();
         int days = currentDate.countDaysOfYear();
         return days > 79 ? currentDate.getYear() - 621 : currentDate.getYear() - 622;
     }
     public static int getCurrentMonth(){
+        Gregorian currentDate = new Gregorian();
         int result;
         int days = currentDate.countDaysOfYear();
         int farvardinDayDifference = 79;
@@ -73,6 +72,7 @@ final public class Persian extends Base{
         return result;
     }
     public static int getCurrentDay(){
+        Gregorian currentDate = new Gregorian();
         int result;
         int days = currentDate.countDaysOfYear();
         int farvardinDayDifference = 79;
