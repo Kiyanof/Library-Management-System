@@ -22,9 +22,77 @@ abstract class Base {
         System.out.println("Done.");
     }
 
-    abstract protected boolean setYear(final int year);
-    abstract protected boolean setMonth(final int month);
-    abstract protected boolean setDay(final int day);
+
+    final public boolean setYear(final int year) {
+        int currentYear = this instanceof Persian ? Persian.getCurrentYear() : Gregorian.getCurrentYear();
+        int minYear = this instanceof Persian ? 1350 : 1950;
+        try {
+            if ((canFuture() && year >= currentYear) || (!canFuture() && year <= currentYear & year >= minYear)) {
+                this.year = year;
+                return true;
+            }
+            System.out.println("Please enter valid year value.");
+            return false;
+        } catch (Exception e){
+            System.out.print("\n--- ERROR:" + e.getMessage() + "!!!");
+            return false;
+        }
+    }
+
+    final public boolean setMonth(final int month) {
+        try {
+            if (month >= 1 && month <= 12) {
+                boolean futureCondition = canFuture();
+                int year = this.getYear();
+                int currentYear = this instanceof Persian ? Persian.getCurrentYear() : Gregorian.getCurrentYear();
+                int currentMonth = this instanceof Persian ? Persian.getCurrentMonth() : Gregorian.getCurrentMonth();
+                if (    (futureCondition && year == currentYear && month >= currentMonth) ||
+                        (!futureCondition && year == currentYear && month <= currentMonth) ||
+                        (futureCondition && year > currentYear) ||
+                        (!futureCondition && year < currentYear)
+                )
+                {
+                    this.month = month;
+                    return true;
+                }
+                System.out.println("Please enter valid month.");
+                return false;
+            }
+            System.out.println("Please enter month between 1 and 12.");
+            return false;
+        } catch (Exception e){
+            System.out.print("\n--- ERROR:" + e.getMessage() + "!!!");
+            return false;
+        }
+    }
+
+    final public boolean setDay(final int day) {
+        try {
+            if (isValidMonthDay(day)){
+                int year = getYear();
+                int month = getMonth();
+                int currentYear = this instanceof Persian ? Persian.getCurrentYear() : Gregorian.getCurrentYear();
+                int currentMonth = this instanceof Persian ? Persian.getCurrentMonth() : Gregorian.getCurrentMonth();
+                int currentDay = this instanceof Persian ? Persian.getCurrentDay() : Gregorian.getCurrentDay();
+                boolean future = canFuture();
+                if (future && ( (year == currentYear && (month > currentMonth || day > currentDay) || (year > currentYear) ))){
+                    this.day = day;
+                    return true;
+                }
+                if (!future && ( (year == currentYear && (month < currentMonth || day <= currentDay)) || (year < currentYear) )){
+                    this.day = day;
+                    return true;
+                }
+                System.out.println("Please enter valid day value.");
+                return false;
+            }
+            System.out.println("Please enter your day between 1 and maxDayOfMonth.");
+            return false;
+        } catch (Exception e){
+            System.out.print("\n--- ERROR:" + e.getMessage() + "!!!");
+            return false;
+        }
+    }
     final protected boolean setFutureCondition(final boolean futureCondition)
     {
         try {
@@ -88,16 +156,6 @@ abstract class Base {
     final public void prevYear(){for (int i = 0; i < 12; i++) this.prevMonth();}
 
     public String show(final String pattern){
-        /**
-         * Pattern Description:
-         * yyyy --> year in number. ex: 1998
-         * mm --> month in number. ex: 2
-         * mmm --> month in Brief Mode chars. ex: FEB
-         * MMM --> month in string. ex: February
-         * dd --> day of month in number. ex: 14
-         * ddd --> day of week in Brief Mode chars. ex: TEU
-         * DDD --> day of week in string. ex: Tuesday.
-         */
         String result = pattern;
         result = result.replaceAll("yyyy", Integer.toString(this.getYear()));
         result = result.contains("mmm") ?   result.replaceAll("mmm", this.getMonth(this.getMonth()).substring(0, 3)) :
