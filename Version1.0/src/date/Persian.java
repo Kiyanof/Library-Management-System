@@ -137,9 +137,9 @@ final public class Persian extends Base{
     public int countDaysOfYear(){
         int result = 0;
         boolean leap = isLeapYear(this);
-        for (int i = 0; i < month - 1 && leap; i++)
+        for (int i = 0; i < getMonth() - 1 && leap; i++)
             result += maxDayOfMonthLeapYear[i];
-        for (int i = 0; i < month - 1 && !leap; i++)
+        for (int i = 0; i < getMonth() - 1 && !leap; i++)
             result += maxDayOfMonth[i];
         result += this.getDay();
         return result;

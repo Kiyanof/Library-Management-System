@@ -6,9 +6,9 @@ import java.util.Objects;
 
 abstract class Base {
 
-    protected int year;
-    protected int month;
-    protected int day;
+    private int year;
+    private int month;
+    private int day;
 
     private boolean futureCondition;
 
