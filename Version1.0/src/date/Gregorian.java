@@ -247,17 +247,6 @@ final public class Gregorian extends Base{
         do {this.prevDay();} while (this.getDay() != day || this.getMonth() == month);
     }
 
-    /*
-    public static Gregorian convertFromPersian(final Persian date){ // Bad Algorithm ->> later you must modify it;
-        int year = date.getYear() + 621;
-        Gregorian result = new Gregorian(year, 3, 21);
-        int days = date.countDaysOfYear();
-        while (--days != 0){
-            result.addOne();
-        }
-        return result;
-    }
-    */
     public static Gregorian convertFromPersian(final Persian date){
         int jy = date.getYear();
         int jm = date.getMonth();
